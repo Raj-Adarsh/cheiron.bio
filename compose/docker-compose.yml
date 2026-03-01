@@ -1,0 +1,16 @@
+name: devops-assessment
+
+services:
+  app:
+    image: ${APP_IMAGE}:${APP_TAG}
+    container_name: app
+    restart: unless-stopped
+    command: ["sh", "-c", "$CMD"]
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:${APP_PORT}${HEALTH_PATH} || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
