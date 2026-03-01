@@ -1,6 +1,12 @@
-state/
-config/assessment.env
-*.log
-.venv/
-__pycache__/
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+.terraform.tfstate.lock.info
+
+# Local tfvars
+*.tfvars
+
+# Mac
 .DS_Store
