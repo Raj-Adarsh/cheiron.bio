@@ -1,7 +1,7 @@
 
 # Single VPC
 resource "aws_vpc" "main" {
-  cidr_block = var.vpc_cidr
+  cidr_block           = var.vpc_cidr
   enable_dns_support   = true
   enable_dns_hostnames = true
   tags = {
@@ -101,7 +101,7 @@ resource "aws_security_group" "app_sg" {
 }
 
 resource "aws_security_group" "lb_sg" {
-  vpc_id   = aws_vpc.main.id
+  vpc_id = aws_vpc.main.id
 
   ingress {
     from_port   = var.http_port
