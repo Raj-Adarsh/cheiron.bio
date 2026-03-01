@@ -11,28 +11,7 @@ This project provisions a highly available, auto-scaled web application infrastr
 - **IAM** roles and security groups
 
 ### Architecture Diagram
-
-```
-+-------------------+         +-------------------+
-|   Public Subnet A |         |   Public Subnet B |
-|  (us-west-2a)     |         |  (us-west-2b)     |
-|                   |         |                   |
-|   +-----------+   |         |   +-----------+   |
-|   |   EC2     |   |         |   |   EC2     |   |
-|   +-----------+   |         |   +-----------+   |
-+--------|----------+         +--------|----------+
-         |                           |
-         |                           |
-         +-----------+---------------+
-                     |
-             +----------------+
-             |    ALB         |
-             +----------------+
-                     |
-             +----------------+
-             |   Internet     |
-             +----------------+
-```
+![alt text](diagram.png)
 
 ## AWS Region
 
@@ -50,7 +29,7 @@ This project provisions a highly available, auto-scaled web application infrastr
    Ensure your AWS CLI is configured with a profile matching `aws_profile` in `terraform.tfvars` (default: `infra`).
 
 3. **Edit variables:**
-   - Update `terraform.tfvars` with your desired values (VPC CIDRs, key pair, AMI, etc).
+   - Update `terraform.tfvars` with your desired values (VPC CIDRs, key pair, AMI, etc). Check out the `terraform.tfvars_sample` for reference.
 
 4. **Initialize Terraform:**
    ```sh
@@ -64,6 +43,9 @@ This project provisions a highly available, auto-scaled web application infrastr
 
 6. **Build and push Docker images:**
    - Tag and push your service images to the ECR repositories created by Terraform.
+   ```sh
+   docker buildx build --platform linux/amd64 -f <service_directory>/Dockerfile -t <aws_account_id>.dkr.ecr.<region>.amazonaws.com/<repository_name>:<tag> --push .
+   ```
 
 7. **Verify deployment:**
    - Find the ALB DNS name from the AWS Console or Terraform output.
@@ -75,20 +57,23 @@ This project provisions a highly available, auto-scaled web application infrastr
 
 ## Running the Verification Script
 
-A script `verify_services.sh` is provided in the `services/` directory to check the health of your deployed services.
+A script `verify_endpoints.sh` is provided in the `services/` directory to check the health of your deployed services.
 
 1. Make the script executable:
    ```sh
-   chmod +x services/verify_services.sh
+   chmod +x verify_endpoints.sh
    ```
 2. Run the script, passing your ALB DNS name:
    ```sh
-   ./services/verify_services.sh <alb-dns-name>
+   ./verify_endpoints.sh <alb-dns-name>
    ```
 
 ---
-
-**Note:**
-- Ensure your EC2 instances are healthy and registered in the ALB target groups.
-- Security groups must allow traffic from the ALB to the application ports.
-- For HTTPS, update the configuration to provide a valid ACM certificate.
+## Cleanup
+To destroy the infrastructure and avoid ongoing costs, run:
+```sh
+terraform destroy -var-file="terraform.tfvars"
+```
+--
+## GitHub Actions
+A GitHub Actions workflow is set up to validate Terraform code on pull requests. The workflow file is located at `.github/workflows/terraform.yml`. It runs `terraform fmt` and `terraform validate` to ensure code quality and correctness before merging changes.

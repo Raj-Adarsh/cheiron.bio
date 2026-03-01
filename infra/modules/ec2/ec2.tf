@@ -106,11 +106,11 @@ resource "aws_launch_template" "service_a_lt" {
     ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose || true
     REGION="${var.aws_region}"
     aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin 905418442014.dkr.ecr.$REGION.amazonaws.com
-    curl -o /home/ubuntu/docker-compose.yml https://raw.githubusercontent.com/Raj-Adarsh/cheiron.bio/feat/devops/compose/docker-compose.yml
+    curl -o /home/ubuntu/docker-compose.yml https://raw.githubusercontent.com/Raj-Adarsh/cheiron.bio/feat/devops/docker-compose.yml
     export APP_IMAGE="905418442014.dkr.ecr.${var.aws_region}.amazonaws.com/service_a"
     export APP_TAG="latest"
     export APP_PORT=${var.service_a_port}
-    export HEALTH_PATH="/healthz"
+    export HEALTH_PATH="/health"
     export CMD="python /app/service_a.py"
     cd /home/ubuntu
     docker-compose up -d
@@ -168,11 +168,11 @@ resource "aws_launch_template" "service_b_lt" {
     ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose || true
     REGION="${var.aws_region}"
     aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin 905418442014.dkr.ecr.$REGION.amazonaws.com
-    curl -o /home/ubuntu/docker-compose.yml https://raw.githubusercontent.com/Raj-Adarsh/cheiron.bio/feat/devops/compose/docker-compose.yml
+    curl -o /home/ubuntu/docker-compose.yml https://raw.githubusercontent.com/Raj-Adarsh/cheiron.bio/feat/devops/docker-compose.yml
     export APP_IMAGE="905418442014.dkr.ecr.${var.aws_region}.amazonaws.com/service_b"
     export APP_TAG="latest"
     export APP_PORT=${var.service_b_port}
-    export HEALTH_PATH="/healthz"
+    export HEALTH_PATH="/health"
     export CMD="python /app/service_b.py"
     cd /home/ubuntu
     docker-compose up -d
@@ -191,9 +191,9 @@ resource "aws_launch_template" "service_b_lt" {
 # ASG for service_a
 resource "aws_autoscaling_group" "service_a_asg" {
   name                = "webapp-asg-service-a"
-  max_size            = 2
-  min_size            = 1
-  desired_capacity    = 1
+  max_size            = 4
+  min_size            = 2
+  desired_capacity    = 2
   default_cooldown    = 60
   vpc_zone_identifier = var.public_subnet_ids
   target_group_arns   = [var.service_a_tg_arn]
@@ -213,9 +213,9 @@ resource "aws_autoscaling_group" "service_a_asg" {
 # ASG for service_b
 resource "aws_autoscaling_group" "service_b_asg" {
   name                = "webapp-asg-service-b"
-  max_size            = 2
-  min_size            = 1
-  desired_capacity    = 1
+  max_size            = 4
+  min_size            = 2
+  desired_capacity    = 2
   default_cooldown    = 60
   vpc_zone_identifier = var.public_subnet_ids
   target_group_arns   = [var.service_b_tg_arn]

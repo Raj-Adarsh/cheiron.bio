@@ -15,7 +15,7 @@ provider "aws" {
 }
 
 module "ecr" {
-  source = "./modules/ecr"
+  source              = "./modules/ecr"
   service_a_repo_name = "service-a-repo"
   service_b_repo_name = "service-b-repo"
 }
@@ -57,14 +57,14 @@ module "ec2" {
 
 # ALB module
 module "alb" {
-  source             = "./modules/alb"
-  service_a_port     = var.service_a_port
-  service_b_port     = var.service_b_port
-  http_protocol      = var.http_protocol
-  https_protocol     = var.https_protocol
-  https_port         = var.https_port
-  vpc_id             = module.network.vpc_id
-  public_subnet_ids  = module.network.public_subnet_ids
-  lb_sg_id           = module.network.lb_sg_id
-  http_port          = var.http_port
+  source            = "./modules/alb"
+  service_a_port    = var.service_a_port
+  service_b_port    = var.service_b_port
+  http_protocol     = var.http_protocol
+  https_protocol    = var.https_protocol
+  https_port        = var.https_port
+  vpc_id            = module.network.vpc_id
+  public_subnet_ids = module.network.public_subnet_ids
+  lb_sg_id          = module.network.lb_sg_id
+  http_port         = var.http_port
 }

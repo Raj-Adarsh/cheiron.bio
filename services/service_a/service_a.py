@@ -3,8 +3,8 @@ from flask import Flask, jsonify
 
 app = Flask(__name__)
 
-@app.route('/healthz')
-def healthz():
+@app.route('/health')
+def health():
     return jsonify(status="ok", service="service_a"), 200
 
 @app.route('/api/ping')
@@ -12,9 +12,9 @@ def ping():
     return jsonify(message="pong from service_a"), 200
 
 # Add prefixed routes for ALB path-based routing
-@app.route('/service_a/healthz')
+@app.route('/service_a/health')
 def service_a_healthz():
-    return healthz()
+    return health()
 
 @app.route('/service_a/api/ping')
 def service_a_ping():

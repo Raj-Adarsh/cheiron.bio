@@ -1,19 +1,11 @@
-# Auto-generated values for all variables in the project
-# Fill in real values as needed
-
-# project = "my-aws-project"
 aws_region                = "us-west-2"
-iam_instance_profile_name = "ec2-instance-profile"
-iam_role_policy_name      = "ecr-access-role-policy"
-iam_role_name             = "ecr-access-role"
+iam_instance_profile_name = ""
+iam_role_policy_name      = ""
+iam_role_name             = ""
 aws_profile               = "infra"
-service_a_port            = 8080
-service_b_port            = 8080
-http_protocol             = "HTTP"
-https_protocol            = "HTTPS"
-# cert = "arn:aws:acm:us-west-2:123456789012:certificate/abc123"
-
-
+service_a_port            = 
+service_b_port            = 
+http_protocol             = ""
 
 # Module: network
 vpc_cidr             = "10.0.0.0/16"
@@ -25,7 +17,6 @@ protocol             = "tcp"
 ssh_port             = 22
 app_port             = 8080
 http_port            = 80
-https_port           = 443
 
 # Module: ec2
 ami                = "ami-0233d2606cf2ca76c"
