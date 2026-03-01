@@ -9,8 +9,6 @@ resource "aws_vpc" "main" {
   }
 }
 
-
-
 # First public subnet in the VPC and AZ A
 resource "aws_subnet" "public_subnet_a" {
   vpc_id                  = aws_vpc.main.id
