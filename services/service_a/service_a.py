@@ -11,6 +11,15 @@ def healthz():
 def ping():
     return jsonify(message="pong from service_a"), 200
 
+# Add prefixed routes for ALB path-based routing
+@app.route('/service_a/healthz')
+def service_a_healthz():
+    return healthz()
+
+@app.route('/service_a/api/ping')
+def service_a_ping():
+    return ping()
+
 if __name__ == "__main__":
     import os
     port = int(os.environ.get("APP_PORT", 8080))

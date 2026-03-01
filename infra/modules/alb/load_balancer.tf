@@ -83,7 +83,7 @@ resource "aws_lb_listener_rule" "service_a_rule" {
 
   condition {
     path_pattern {
-      values = ["/service_a*", "/service_a/*"]
+      values = ["/service_a*", "/service_a/*", "/healthz", "/api/ping"]
     }
   }
 }
@@ -100,7 +100,7 @@ resource "aws_lb_listener_rule" "service_b_rule" {
 
   condition {
     path_pattern {
-      values = ["/service_b*", "/service_b/*"]
+      values = ["/service_b*", "/service_b/*", "/healthz", "/api/ping"]
     }
   }
 }

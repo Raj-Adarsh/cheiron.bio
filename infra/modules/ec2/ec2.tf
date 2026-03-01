@@ -18,7 +18,7 @@ resource "aws_iam_role" "ec2_role" {
 # Create an IAM Instance Profile
 resource "aws_iam_instance_profile" "ec2_profile" {
   name = var.iam_instance_profile_name
-
+  role = aws_iam_role.ec2_role.name
 }
 
 # Scale Up Policy: Increase capacity by 1 when triggered
@@ -106,7 +106,7 @@ resource "aws_launch_template" "service_a_lt" {
     ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose || true
     REGION="${var.aws_region}"
     aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin 905418442014.dkr.ecr.$REGION.amazonaws.com
-    curl -o /home/ubuntu/docker-compose.yml https://raw.githubusercontent.com/your-username/your-repo/branch/docker-compose.yml
+    curl -o /home/ubuntu/docker-compose.yml https://raw.githubusercontent.com/Raj-Adarsh/cheiron.bio/feat/devops/compose/docker-compose.yml
     export APP_IMAGE="905418442014.dkr.ecr.${var.aws_region}.amazonaws.com/service_a"
     export APP_TAG="latest"
     export APP_PORT=${var.service_a_port}
@@ -168,7 +168,7 @@ resource "aws_launch_template" "service_b_lt" {
     ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose || true
     REGION="${var.aws_region}"
     aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin 905418442014.dkr.ecr.$REGION.amazonaws.com
-    curl -o /home/ubuntu/docker-compose.yml https://raw.githubusercontent.com/your-username/your-repo/branch/docker-compose.yml
+    curl -o /home/ubuntu/docker-compose.yml https://raw.githubusercontent.com/Raj-Adarsh/cheiron.bio/feat/devops/compose/docker-compose.yml
     export APP_IMAGE="905418442014.dkr.ecr.${var.aws_region}.amazonaws.com/service_b"
     export APP_TAG="latest"
     export APP_PORT=${var.service_b_port}
