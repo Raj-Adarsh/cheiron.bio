@@ -21,8 +21,8 @@ check() {
   echo "$resp" | grep -q "$expect" || fail "$msg"
 }
 
-# /healthz endpoint
-check "http://$HOST:$PORT/healthz" "$SERVICE" "/healthz endpoint failed for $SERVICE"
+# /health endpoint
+check "http://$HOST:$PORT/health" "$SERVICE" "/health endpoint failed for $SERVICE"
 
 # /api/ping endpoint
 check "http://$HOST:$PORT/api/ping" "$SERVICE" "/api/ping endpoint failed for $SERVICE"

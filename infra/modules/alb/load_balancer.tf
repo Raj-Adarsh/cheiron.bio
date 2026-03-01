@@ -18,7 +18,7 @@ resource "aws_lb_target_group" "service_a_tg" {
   vpc_id   = var.vpc_id
 
   health_check {
-    path                = "/healthz"
+    path                = "/health"
     protocol            = var.http_protocol
     matcher             = "200"
     interval            = 30
@@ -40,7 +40,7 @@ resource "aws_lb_target_group" "service_b_tg" {
   vpc_id   = var.vpc_id
 
   health_check {
-    path                = "/healthz"
+    path                = "/health"
     protocol            = var.http_protocol
     matcher             = "200"
     interval            = 30
@@ -83,7 +83,7 @@ resource "aws_lb_listener_rule" "service_a_rule" {
 
   condition {
     path_pattern {
-      values = ["/service_a*", "/service_a/*", "/healthz", "/api/ping"]
+      values = ["/service_a*", "/service_a/*", "/health", "/api/ping"]
     }
   }
 }
@@ -100,7 +100,7 @@ resource "aws_lb_listener_rule" "service_b_rule" {
 
   condition {
     path_pattern {
-      values = ["/service_b*", "/service_b/*", "/healthz", "/api/ping"]
+      values = ["/service_b*", "/service_b/*", "/health", "/api/ping"]
     }
   }
 }
